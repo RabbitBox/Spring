@@ -1,0 +1,120 @@
+GET http://localhost:8080/api/consultations
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+###
+GET http://localhost:8080/api/consultations
+page-size:10
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+###
+GET http://localhost:8080/api/consultations
+page: 3
+page-size: 1
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 400, "Response status is not 400");
+});
+%}
+
+###
+GET http://localhost:8080/api/consultations?term=114
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+### Missing header
+POST http://localhost:8080/api/consultations
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 400, "Response status is not 400");
+});
+%}
+
+
+###
+POST http://localhost:8080/api/consultations
+professorId: riste.stojanov
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 400, "Response status is not 400");
+});
+%}
+
+
+###
+POST http://localhost:8080/api/consultations
+professorId: riste.stojanov
+Content-Type: application/x-www-form-urlencoded
+
+roomName=114&dayOfWeek=2&from=15:00:00&to=17:00:00
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 201, "Response status is not 201");
+  client.assert(response.headers.valueOf("Location")!= null, "Invalid Location");
+  client.assert(response.body.hasOwnProperty("slotId"), 'Can not find the slotId');
+  client.global.set("newSlotUrl", response.headers.valueOf("Location"));
+  client.global.set("slotId", response.body["slotId"]);
+});
+%}
+
+
+
+###
+GET {{newSlotUrl}}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+###
+PATCH http://localhost:8080/api/consultations/{{slotId}}
+professorId: riste.stojanov
+Content-Type: application/x-www-form-urlencoded
+
+roomName=117&dayOfWeek=2&from=18:00:00&to=20:00:00
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 201");
+  client.assert(response.body.hasOwnProperty("slotId"), 'Can not find the slotId');
+});
+%}
+
+###
+GET {{newSlotUrl}}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+###
+DELETE {{newSlotUrl}}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+###

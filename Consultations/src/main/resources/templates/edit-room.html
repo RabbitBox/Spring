@@ -1,0 +1,37 @@
+<form th:action="@{/rooms/{name}(name=${room.name})}"
+      th:object="${room}"
+      method="POST" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <input type="hidden" name="oldName" th:value="${room.name}">
+
+    <div class="form-group">
+        <label for="roomBuilding">Room Name</label>
+        <select th:field="*{building}"
+                id="roomBuilding"
+                required="true"
+                class="form-control">
+            <option th:each="building: ${T(mk.ukim.finki.mk.consultations.model.Building).values()}"
+                    th:value="${building}"
+                    th:text="${building.getDescription()}"></option>
+
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="roomName">Room Name</label>
+        <input type="text"
+               name="newName"
+               th:value="${room.name}"
+               class="form-control"
+               required="true"
+               id="roomName" placeholder="Room Name">
+    </div>
+    <div class="form-group">
+        <label for="roomDescription">Room Name</label>
+        <textarea th:field="*{description}"
+                  id="roomDescription"
+                  class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

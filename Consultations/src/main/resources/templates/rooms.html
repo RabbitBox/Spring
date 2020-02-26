@@ -1,0 +1,44 @@
+<div class="room mt-3"
+     method="POST" xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.thymeleaf.org"
+     th:each="entry: ${buildingRooms}">
+
+    <h3 th:text="${entry.key.getDescription()}"></h3>
+
+    <div class="row">
+        <th:block th:each="room : ${entry.value}">
+            <div class="col-md-6 mt-2 col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6" th:text="${room.name}">
+                                117
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a th:href="@{/rooms/{name}(name=${room.name})}"
+                                   class="btn btn-primary"
+                                   title="Уреди">
+                                    <i class="fa fa-fw fa-edit"></i>
+                                </a>
+                                <form method="POST"
+                                      onsubmit="return confirm('Are you sure that you whant to delete this room?')"
+                                      th:action="@{/rooms/{name}/delete(name=${room.name})}">
+                                    <button class="btn btn-danger" title="Избриши">
+                                        <i class="fa fa-fw fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text" th:text="${room.description}">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+
+    </div>
+</div>
+

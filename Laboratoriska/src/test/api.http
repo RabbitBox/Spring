@@ -1,0 +1,148 @@
+POST http://localhost:8080/ingredients
+Content-Type: application/x-www-form-urlencoded
+
+name=wwww&spicy=true&amount=30&veggie=false&pizzaNames=Cheddar,Burger Classic
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 201, "Response status is not 201");
+});
+%}
+
+
+
+###
+PATCH http://localhost:8080/ingredients/iceberg
+Content-Type: application/x-www-form-urlencoded
+
+spicy=false&amount=6&veggie=false&pizzaNames=Burger Barbecue
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 201");
+});
+%}
+
+###
+DELETE http://localhost:8080/ingredients/iceberg
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+###
+GET http://localhost:8080/ingredients/page
+page: 0
+page-size: 111
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 400, "Response status is not 400");
+});
+%}
+
+###
+GET http://localhost:8080/ingredients/all
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 400, "Response status is not 400");
+});
+%}
+
+###
+
+GET http://localhost:8080/ingredients/peperoni
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 400, "Response status is not 400");
+});
+%}
+
+###
+GET http://localhost:8080/ingredients?term=false
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+###
+GET http://localhost:8080/ingredients/ham/pizzas
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+###
+POST http://localhost:8080/pizzas
+Content-Type: application/x-www-form-urlencoded
+
+name=ssssssss&description=(sunka, kecap, kaskaval)&ingredientsNames=ham,jajce
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 201, "Response status is not 201");
+});
+%}
+
+
+
+###
+PUT http://localhost:8080/pizzas/Pepperoni
+Content-Type: application/x-www-form-urlencoded
+
+name=Pepperoni&description=(sunka, kecap, kaskaval)&veggie=true&ingredientsNames=ham,jajce
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 201, "Response status is not 201");
+});
+%}
+
+
+
+###
+DELETE http://localhost:8080/pizzas/Pepperoni
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+###
+GET http://localhost:8080/pizzas
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 400, "Response status is not 400");
+});
+%}
+
+###
+GET http://localhost:8080/pizzas/ssssssss
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 400, "Response status is not 400");
+});
+%}
+
+###
+GET http://localhost:8080/pizzas?totalIngredients=100
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 400, "Response status is not 400");
+});
+%}
+
+###
+
